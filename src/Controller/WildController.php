@@ -21,7 +21,7 @@ class WildController extends AbstractController
     /**
      * @Route("/wild/show/{slug}", requirements={"slug"="[a-z0-9-]+"}, name="wild_show")
      */
-    public function show($slug): Response
+    public function show($slug =  "Aucune série sélectionnée, veuillez choisir une série"): Response
     {
         $slugs = str_split($slug);
 
