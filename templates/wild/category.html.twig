@@ -1,9 +1,10 @@
+{# templates/wild/category.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}All programs{% endblock %}
+{% block title %}{{ categories.0.name }}{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la table program : </h1>
+    <h1>Toutes les séries de la catégory : {{ categories.0.name }}</h1>
     {% for program in programs %}
         <div>
             <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
