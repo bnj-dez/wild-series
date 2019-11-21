@@ -91,7 +91,7 @@ class WildController extends AbstractController
             ->getRepository(Program::class)
             ->findBy(
                 ['category' => $categoryId],
-                ['id' => 'DESC'],
+                ['id' => 'ASC'],
                 3
             );
 
