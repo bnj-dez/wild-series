@@ -173,5 +173,31 @@ class WildController extends AbstractController
                 'programs' => $program
             ]);
     }
+
+    /**
+     * @Route("/episode/{id<^[0-9-]+$>}", name="episode")
+     * @return Response
+     */
+
+    public function showEpisode(Episode $episode):Response
+    {
+
+        $season = $episode->getSeasonId();
+        $program = $season->getProgramId();
+        $programTitle = $program->getTitle();
+        $programTitle =strtolower($programTitle);
+        $programTitle = str_replace(
+            ' ',
+            '-',
+            $programTitle
+        );
+
+        return $this->render('wild/episode.html.twig',
+            [
+                'seasons' => $season,
+                'episodes' => $episode,
+                'program' => $programTitle
+            ]);
+    }
 }
 

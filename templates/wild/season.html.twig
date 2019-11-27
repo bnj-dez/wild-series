@@ -6,7 +6,7 @@
     <h1>Touts les épisodes de la saison : {{ seasons.number }}</h1>
     {% for episode in episodes %}
         <div>
-            <a href=""><p><strong>{{ episode.title }}</strong> Episode n°{{ episode.number }}</p></a>
+            <a href="../../episode/{{ episode.id }}"><p><strong>{{ episode.title }}</strong> Episode n°{{ episode.number }}</p></a>
         </div>
     {% else %}
         Aucune série trouvée.
