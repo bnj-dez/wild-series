@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Actor;
 use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Program;
@@ -32,7 +33,6 @@ class WildController extends AbstractController
                 'No program found in program\'s table.'
             );
         }
-        $category = new Category();
         $form = $this->createForm(ProgramSearchType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
@@ -208,5 +208,39 @@ class WildController extends AbstractController
                 'program' => $programTitle
             ]);
     }
-}
 
+    /**
+     * @param string $name The slugger
+     * @Route("/actor/{name}", name = "actor")
+     * @return Response
+     */
+    public function actorName(?string $name):Response
+    {
+        if (!$name) {
+            throw $this
+                ->createNotFoundException('No slug has been sent to find a program in program\'s table.');
+        }
+        $name = preg_replace(
+            '/-/',
+            ' ', ucwords(trim(strip_tags($name)), "-")
+        );
+
+        $actor = $this->getDoctrine()
+            ->getRepository(Actor::class)
+            ->findOneBy(['name' => $name]);
+
+        $program = $actor -> getPrograms();
+
+        if (!$actor) {
+            throw $this->createNotFoundException(
+                'No actor with '.$name.' name, found in actor\'s table.'
+            );
+        }
+
+        return $this->render('wild/actor.html.twig', [
+            'actors' => $actor,
+            'programs' => $program,
+            'name'  => $name,
+        ]);
+    }
+}

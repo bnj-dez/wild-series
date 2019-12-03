@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Episode {{ actors.name }}{% endblock %}
+
+{% block body %}
+<strong>Acteur : {{ actors.name }}</strong>
+<ul>
+    {% for program in programs %}
+        <a href="{{ path('program_show', {id: program.id }) }}"><li>{{ program.title }} </li></a>
+    {% else %}
+        <li>Aucune série pour cet acteur</li>
+    {% endfor %}
+</ul>
+{% endblock %}
