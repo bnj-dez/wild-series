@@ -116,7 +116,7 @@ class WildController extends AbstractController
 
     /**
      * @param string $programTitle
-     * @Route("/program/{programTitle<^[a-z0-9-]+$>}", defaults={"slug" = null}, name="program")
+     * @Route("/program/{programTitle}", defaults={"slug" = null}, name="program")
      * @return Response
      */
 

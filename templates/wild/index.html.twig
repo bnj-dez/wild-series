@@ -15,7 +15,8 @@
 
     {% for program in programs %}
         <div>
-            <a href="{{ path('wild_program', {'programTitle': program.title | lower | replace({' ' : '-'})}) }}"><h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2></a>
+            <a href="{{ path('wild_program', {'programTitle': program.title | lower | replace({' ' : '-'})}) }}">
+                <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2></a>
             <p>{{ program.summary }}</p>
         </div>
     {% else %}
