@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Actor;
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
+use App\Form\CommentType;
 use App\Form\ProgramSearchType;
+use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -188,24 +191,24 @@ class WildController extends AbstractController
      * @return Response
      */
 
-    public function showEpisode(Episode $episode):Response
+    public function showEpisode(Episode $episode, Request $request):Response
     {
+        $comment = new Comment();
 
-        $season = $episode->getSeasonId();
-        $program = $season->getProgramId();
-        $programTitle = $program->getTitle();
-        $programTitle =strtolower($programTitle);
-        $programTitle = str_replace(
-            ' ',
-            '-',
-            $programTitle
-        );
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('wild_index');
+        }
         return $this->render('wild/episode.html.twig',
             [
-                'seasons' => $season,
-                'episodes' => $episode,
-                'program' => $programTitle
+                'episode' => $episode,
+                'form' => $form->createView(),
             ]);
     }
 

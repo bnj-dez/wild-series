@@ -1,18 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Episode {{ episodes.number }}{% endblock %}
+{% block title %}Episode {{ episode.number }}{% endblock %}
 
 {% block body %}
-    <h1>Episode {{ episodes.number }} : {{ episodes.title }}</h1>
+    <h1>Episode {{ episode.number }} : {{ episode.title }}</h1>
     <div>
-    <p><strong>{{ episodes.title }}</strong> Episode n°{{ episodes.number }}</p>
-    <p>{{ episodes.synopsis }}</p>
+        <p><strong>{{ episode.title }}</strong> Episode n°{{ episode.number }}</p>
+        <p>{{ episode.synopsis }}</p>
+        {% if app.user %}
+            {{ include('comment/_form.html.twig') }}
+        {% endif %}
     </div>
-    <a href="../program/season/{{ seasons.id }}">
+
+    {% for comment in episode.comments %}
+            <p>{{ comment.comment }}</p>
+    {% endfor %}
+    <!--<a href="../program/season/">-->
+    <a href="{{ path('wild_season', { 'id': episode.seasonId.id}) }}">
         Retour à la saison
     </a>
-    <a href="../program/{{ program }}">
-        Retour au program
+    <a href="{{ path('wild_program', {'programTitle': episode.seasonId.programId.title}) }}">
+
+    Retour au program
     </a>
     <a href="{{ path('app_index') }}">
         Retour à l'accueil
